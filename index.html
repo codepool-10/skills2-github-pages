@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1e1e1e;
+            margin: 0;
+            color: #d4d4d4;
+        }
+        
+        .container {
+            background-color: #252526;
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 350px;
+            border: 1px solid #3e3e42;
+        }
+        
+        h1 {
+            color: #569cd6;
+            margin-bottom: 30px;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        
+        .option {
+            background-color: #0e639c;
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .option:hover {
+            background-color: #1177bb;
+        }
+        
+        #no-btn {
+            background-color: #6c2022;
+        }
+        
+        #no-btn:hover {
+            background-color: #8a2a2a;
+        }
+        
+        .result {
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #4ec9b0;
+            display: none;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            animation: confetti-fall 3s ease-in-out;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Adding a VSCode-like syntax highlighting glow effect to text */
+        h1, .result {
+            text-shadow: 0 0 2px rgba(86, 156, 214, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Are you gay?</h1>
+        <div class="options">
+            <button id="yes-btn" class="option">Yes</button>
+            <button id="no-btn" class="option">No</button>
+        </div>
+        <div id="result" class="result">I knew it! Congratulations! 🎉</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noBtn = document.getElementById('no-btn');
+            const yesBtn = document.getElementById('yes-btn');
+            const result = document.getElementById('result');
+            const container = document.querySelector('.container');
+            
+            // Move the "No" button away from cursor when hovered
+            noBtn.addEventListener('mouseover', function() {
+                // Get window dimensions
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // Calculate new random position
+                const newX = Math.random() * (windowWidth - 100);
+                const newY = Math.random() * (windowHeight - 100);
+                
+                // Apply new position
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
+            });
+            
+            // Show result when "Yes" is clicked
+            yesBtn.addEventListener('click', function() {
+                // Hide the options
+                yesBtn.style.display = 'none';
+                noBtn.style.display = 'none';
+                
+                // Show the result
+                result.style.display = 'block';
+                
+                // Create confetti effect
+                createConfetti();
+            });
+            
+            // Function to create confetti
+            function createConfetti() {
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    // Random position
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    
+                    // Random color
+                    const colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Random size
+                    const size = Math.random() * 10 + 5;
+                    confetti.style.width = size + 'px';
+                    confetti.style.height = size + 'px';
+                    
+                    // Random delay
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
